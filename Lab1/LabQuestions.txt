@@ -1,0 +1,16 @@
+//Jack Weissenberger Lab1
+
+/*
+1.) Explain one of the fundamental differences between signal() and sigaction() system calls:
+
+One of the biggest differences is that sigaction is able to block different signals until
+the initial handler returns whereas signal usually does not block other signals
+
+2.) What is the purpose of SIGKILL if it cannot be intercepted?
+
+SIGKILL is used as a last resort by operating systems. The most common example
+I have found for the use of SIGKILL is that sometimes in operating system
+shutdown, if the procedures do not want to exit, the system will call SIGKILL
+which cannot be intercepted and can help speed up shutdown.
+
+*/
