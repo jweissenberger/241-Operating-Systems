@@ -3,16 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 int main (){
   char *cmd = "";
   char *buffer = "";
+  int pid;
+  size_t bufsize = 32;
+  size_t characters;
+  int maxNumArgs = 30;
+  char *args[maxNumArgs];
 
-  printf("Type a command with a space after it: ");
+  printf("Type a command with a space after it or type exit to exit: ");
   while(1){
 
-    size_t bufsize = 32;
-    size_t characters;
 
     buffer = (char *)malloc(bufsize * sizeof(char));
     if( buffer == NULL)
@@ -33,30 +37,26 @@ int main (){
     token = strtok(buffer, " ");
     int i = 0;
 
-    int maxNumArgs = 30;
-    char *args[maxNumArgs];
-
     int background = 0;
     while( token != NULL ) {
       if (i == 0){
         cmd = token;
       }
       else{
-        //if
+        if(strcmp(token, "&") == 0){
+          background = 1;
+        }
         args[i-1] = token;
       }
 
-      //printf( " %s\n", token );
 
       token = strtok(NULL, " ");
       ++i;
     }
     args[i-1] = NULL;
 
-    int pid;
-    if (background != 0){
-      //wait(NULL);
-      printf("background\n" );
+    if (background == 1){
+      wait(NULL);
     }
     else{
       pid = fork();
