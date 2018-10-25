@@ -14,7 +14,8 @@ int main (){
   int maxNumArgs = 30;
   char *args[maxNumArgs];
 
-  printf("Type a command with a space after it or type exit to exit: ");
+  printf("Note: please put a space at the end of your command\n");
+  printf("Type a command with a space after it or type exit to exit:\n");
   while(1){
 
 
@@ -59,6 +60,7 @@ int main (){
       token = strtok(NULL, " ");
       ++i;
     }
+    // set the token after the last token to be null
     args[i-1] = NULL;
 
     // if there is an &
@@ -70,7 +72,9 @@ int main (){
     else{
       pid = fork();
       if (pid ==0){
-          execvp(cmd, args);
+          if(execvp(cmd, args)){
+            printf("You did not input a working command\n");
+          }
       }
     }
 

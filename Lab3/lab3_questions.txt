@@ -1,0 +1,15 @@
+Jack Weissenberger
+
+Lab 3 questions
+
+1. How can the shell identify if the command executed successfully or not?
+
+My execvp command is in an if statement and if execvp produces any output, then we know that the 
+command did not execute correctly and an error message is printed to the screen and the user is 
+reprompted for a command
+
+
+2. Under what circumstances will the exec() return to the calling process?
+
+Exec will return to the calling process if an error has occured and erno will contain the error 
+information.
