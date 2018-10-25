@@ -25,24 +25,30 @@ int main (){
         exit(1);
     }
 
-
+    //read in the inputted line
     characters = getline(&buffer,&bufsize,stdin);
 
+    // if the user types exit, exit the program
     if (strcmp(buffer, "exit\n") == 0){
       printf("Exiting\n");
       break;
     }
 
+    //tokenize the input on each of the spaces
     char *token;
     token = strtok(buffer, " ");
     int i = 0;
 
     int background = 0;
     while( token != NULL ) {
+      // the first token is the command
       if (i == 0){
         cmd = token;
       }
+
+      // the rest of the tokens are the command arguments
       else{
+        // handel the case if there is an &
         if(strcmp(token, "&") == 0){
           background = 1;
         }
@@ -55,9 +61,12 @@ int main (){
     }
     args[i-1] = NULL;
 
+    // if there is an &
     if (background == 1){
       wait(NULL);
     }
+
+    // fork for the new command
     else{
       pid = fork();
       if (pid ==0){
