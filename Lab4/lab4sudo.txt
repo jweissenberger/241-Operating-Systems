@@ -1,0 +1,76 @@
+Psudo code
+
+#include
+
+int room, chairs, cash;
+
+//P decrements, V increments
+
+main(){
+  // ask for number of chairs
+  // ask for number of customers
+  SETUP(); // this will set up semaphores and everything
+
+  room = SEMAPHORE(SEM_CNT, chairs);
+  cash = SEMAPHORE(SEM_BIN, 1);
+  barber = SEMAPHORE(SEM_BIN, 0):
+  // need another binary semaphore for the mutual exclusion
+  m = SEMAPHORE(SEM_BIN, 0);
+
+
+  for (int i = 0; i < customers; i++){
+
+    pid_t pid = fork();
+    sleep(random_time);
+
+    if (pid == 0){
+      customer(i)
+    }
+
+  }
+
+  SIGNAL
+
+  // barber code aka parent process
+
+  while(1){
+    P(barber) -1 // this requests the barber, waking him up
+    P(m) = 0 // for the mutual exclusion, so that only you specifially are using
+    // the barber
+    sleep(random_time2)
+    V(m)
+    v(room)
+
+    // need to create a control z handler to exit, look at the poject, you also
+    // need to print something out when you type control z
+  }
+
+  // the customer funtion will use the casheer, the room, the barber, basically requesting everything
+
+  while(wait(&finish) != 1)); // wait for all of the child processes
+
+
+
+}
+
+void customer(int)
+
+  //request the room
+  P(room)
+  p(m)
+
+  //update everything
+
+  V(m);
+
+  //now wake up the barber, convert him to 0 from negative one
+  V(barber)
+
+  // wait random time for while you are getting the haircut
+
+  P(cash)
+  // wait a random time at the casheer
+  V(cash)
+  exit(0)
+
+  //"Its more than this but this is the basic structure"
