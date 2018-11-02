@@ -1,0 +1,10 @@
+Jack Weissenberger Lab 4 questions
+
+1. There are many critial sections of code in this problem. Any time the room is checked to see 
+how many people are in the room, whenever the barber or cashier is checked and when the mutex is 
+being checked.
+
+2. If there was more than one barber, then we would need to change the barber from a binary 
+semaphore to a counting semaphore and set it equal to 2 or however many barbers there were.
+Then when a customer came in, they would need to check to see if each of the barbers were 
+available before trying to take a seat to wait

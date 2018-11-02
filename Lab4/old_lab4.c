@@ -1,5 +1,5 @@
 // Jack Weissenberger Lab 4
-/*
+
 #include "ezipc.h"
 #include <stdio.h>
 #include <sys/types.h>
@@ -106,4 +106,3 @@ void quitHandler ( int theInt) {
   printf("\n Quitting!\n");
   exit(3);
 }
-*/

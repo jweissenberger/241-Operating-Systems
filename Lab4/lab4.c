@@ -1,4 +1,5 @@
-
+// Jack Weissenberger, 11/1/2018
+// Operating Systems, Lab 4, The Sleeping Barber problem
 
 #include <unistd.h>
 #include <stdio.h>
@@ -9,7 +10,8 @@
 #include "ezipc.h"
 
 
-int num_chairs, max_customers, cutCount=0, customerCount=0, randTime;
+int num_chairs, max_customers,
+int randTime;
 int chair_sem, barber, m, cash;
 int* room;
 
@@ -27,7 +29,7 @@ int main(int argc, char *argv[]) {
     SETUP();
 
     if(argc!=3){
-        printf("ERROR");
+        printf("Input error, please put the number of chairs followed by the number of customers as a command line argument\n");
         exit(-1);
     }
 
@@ -38,11 +40,11 @@ int main(int argc, char *argv[]) {
         num_chairs = strtol(argv[1],NULL,0);
         max_customers = strtol(argv[2],NULL,0);
 
+        room = SHARED_MEMORY(20); // for the people in the room
+        m = SEMAPHORE(SEM_BIN, 1); // mutex
+        cash = SEMAPHORE(SEM_BIN, 1); // for the person waiting at the cashier
         chair_sem = SEMAPHORE(SEM_CNT, num_chairs);
         barber = SEMAPHORE(SEM_BIN, 1);
-        room = SHARED_MEMORY(20);
-        cash = SEMAPHORE(SEM_BIN, 1);
-        m = SEMAPHORE(SEM_BIN, 1);
         *room=num_chairs;
 
 
@@ -89,7 +91,7 @@ void customer(int id){
     P(m);
     printf("Barber awakened, there is/are %d seats available\n",++*room);
     V(m);
-    printf("Haircut: Customer %d is getting a haircut\n", id);
+    printf("**************Haircut: Customer %d is getting a haircut\n", id);
     sleep(rand()%5);
     V(barber);
 
@@ -103,6 +105,6 @@ void customer(int id){
 
 void quitHandler ( int theInt) {
   printf("\n DONE!\n");
-  printf("%d customers got their hair cut\n", max_customers);
+  printf("Close shop and go home\n" );
   exit(3);
 }
