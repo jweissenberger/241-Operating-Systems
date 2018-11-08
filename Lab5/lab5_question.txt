@@ -1,0 +1,6 @@
+Jack Weissenberger
+Lab 5 Question
+
+The critical questions of this lab consist of the two portions of shared memory betwee the three 
+processes. Also all of the semaphores that control access to these shared memory locations are 
+also shared memory.
