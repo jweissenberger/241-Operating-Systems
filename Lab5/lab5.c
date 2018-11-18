@@ -144,7 +144,7 @@ int main() {
     }
 
 
-    while(wait(&signal)!=-1); // wiat for all child processes to end
+    while(wait(&signal)!=-1); // wait for all child processes to end
     return 0;
 
 }
