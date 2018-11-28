@@ -1,3 +1,8 @@
+; Jack Weissenberger
+; Lisp war program
+; CS 231
+
+
 ; : It calls shuffle-deck to do the actual shuffling.
 
 (defun shuffle ()
@@ -138,72 +143,61 @@
 
 )
 
-(defun compare-cards (card1 card2)
 
-(cond ((equal nil card1) nil)
-
-((equal nil card2) nil)
-((equal nil card1) nil)
-((> (getNum card1) (getNum card2)) card1)
-((> (getNum card2) (getNum card1)) card2)
-
-)
-
-)
+; This is the function that iterates through the decks, giving the winning player the cards
+; and takes the card from the loser, it also calls war when the two players have the same card
 
 (defun threw-deck(deck1 deck2)
 
 (cond
 
-  ((equal nil deck1) (print "Player 2 won") nil)
+  ((< 46 (list-length deck1)) (print "Player 2 won") nil)
 
-  ((equal nil deck2) (print "Player 1 won") nil)
+  ((< 46 (list-length deck2)) (print "Player 1 won") nil)
 
   ((> (getNum (get-rank (car deck1))) (getNum (get-rank (car deck2))))
-  (format t "~a beats ~a~%" (car deck1) (car deck2))
+  (format t "~a beat ~a~%" (car deck1) (car deck2))
   (threw-deck (append (cdr deck1) (car deck1) (car deck2)) (cdr deck2)) )
 
 
   ((< (getNum (get-rank (car deck1))) (getNum (get-rank (car deck2))))
-  (format t "~a beats ~a~%" (car deck2) (car deck1))
+  (format t "~a beat ~a~%" (car deck2) (car deck1))
   (threw-deck (cdr deck1) (append (cdr deck2) (car deck1) (car deck2)) ) )
 
 
-  ((equal (get-rank (car deck1)) (get-rank (car deck2))) (print "equal"))
+  ((equal (get-rank (car deck1)) (get-rank (car deck2)))
+    (print "WAR")
+    (war deck1 deck2)
+    )
 
 )
 
 )
 
-;( defun split-deck ((deckA) (deckB))
 
-;  (cond ((equals (list-length deckA) 26) (deckA) (deckB) )
-;        (t (split-deck (cdr deckA) (append (car deckA) deckB ) ) )
+; when two players have the same card this function is called
+; It compares the 4 element of each list like in the card game and rewards all of the
+; preceding cards to whomever won that hand, calls itself again if the war hand was the same card
+(defun war(deckX deckY)
+(cond
+  ((> (getNum (get-rank (nth 3 deckX))) (getNum (get-rank (nth 3 deckY))))
+    (print "Player 1 won the war")
+    (threw-deck (append (nthcdr 4 deckX) (subseq deckX 0 3) (subseq deckY 0 3) ) (nthcdr 4 deckY) ) )
 
-;  )
+  ((< (getNum (get-rank (nth 3 deckX))) (getNum (get-rank (nth 3 deckY))))
+    (print "Player 2 won the war")
+    (threw-deck (append (nthcdr 4 deckY) (subseq deckY 0 3) (subseq deckX 0 3) ) (nthcdr 4 deckX) ) )
 
-;)
+  (t (war (append (cdr deckX) (car deckX) ) (append (cdr deckY) (car deckY) ) ) )
+)
 
-;(defun test-split()
-;    (split-deck (shuffle) nil)
-;)
+)
 
+;******************************************************************************
+; This is the wrapper function for the game, run this function to play the game
+; *****************************************************************************
 ( defun play-war()
-
-  (threw-deck (shuffle) (shuffle))
+  (setq cards (shuffle))
+  (threw-deck (subseq cards 0 13) (subseq cards 13))
 
 )
-
-
-
-; formatT to print
-; Compare two hands
-
-;; psudo for war:
-;; create two shuffled decks
-;; recurse through each of the decks
-;; compare the two cards shown and add the both cards back into the winning hand's list
-;;
-;; if the cards have the same value put both cards back at the bottom of their own list and continue (for now)
-;; call war where you pull out three cards and compare the last one and winner takes all of them
-;; continue this until one of the decks is empty
