@@ -12,7 +12,18 @@
 
 void quitHandler(int);
 
-int main() {
+int main(int argc, char* argv[]) {
+
+    if (argc==1) {
+      printf("\nYou did not enter the number of stalls or the number of people into the command line\n");
+      exit(1);
+    }
+
+    //int arg1 = atoi(argv[1]);
+    int num_stalls = atoi(argv[1]);
+    printf("Number of stalls: %d\n", num_stalls);
+    int num_people = atoi(argv[2]);
+    printf("Number of people: %d\n", num_people);
 
     signal(SIGINT, quitHandler); //Set up quit handler
 
@@ -36,11 +47,30 @@ int main() {
     unsigned long num; // number of chars from getline
     num = 0;
     char a;
-    int num_stalls
+
+    int i = 0;
+    char gender;
+    int time;
+    int time_arr[num_people];
+    char gender_arr[num_people];
 
     while ((output = getline(&file_line, &num, pf)) != -1){
-        a = file_line[0];
-        printf("%c \n", a);
+        if (i == 0){
+          // Assuming the file is like how it is shown in the document
+          // this line should show how many people are going to be waiting
+        }
+
+        else{
+          time = file_line[0];
+          gender = file_line[1];
+          time_arr[i-1] = time-48;
+          gender_arr[i-1] = gender;
+        }
+        ++i;
+    }
+
+    for (int j = 0; j < num_people; j++){
+      printf("Gender: %c, time: %d\n", gender_arr[j], time_arr[j] );
     }
 
 }
